@@ -1,14 +1,22 @@
 package CrudOperations.LibraryManagement.Books.Controller;
 
 import CrudOperations.LibraryManagement.Books.Bean.Book;
+import CrudOperations.LibraryManagement.Books.Bean.Book_track;
 import CrudOperations.LibraryManagement.Books.Repository.BookRepository;
+import CrudOperations.LibraryManagement.Books.Repository.TrackRepository;
+//import CrudOperations.LibraryManagement.Books.Service.BookService;
+import CrudOperations.LibraryManagement.Books.Service.BookService;
+import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.Table;
+import org.hibernate.cfg.IndexColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,63 +25,116 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-
-import static ch.qos.logback.classic.spi.ThrowableProxyVO.build;
 
 
 //http://localhost:8080/books
 
 @RestController
-public class BookController
-{
+public class BookController {
 
     @Autowired
-    private BookRepository repository;
+    BookService bookService;
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private TrackRepository trackRepository;
 
 
     //Get all the books
-   @GetMapping("/books")
-   public List<Book> getAllBooks() {
+    @GetMapping("/books")
+    public List<Book> getAllBooks() {
 
-      return repository.findAll();
-
-
-      }
+        return bookRepository.findAll();
 
 
-    //if(Book.isEmpty())
-    //{
-    //throw new RuntimeException("Books are not available. ");
-    //  }
-
-    //return Arrays.asList(new Book(978088878, "Atomic Habits", "James Clear", 390));
-
-
-
-    /*
-    @GetMapping("/books/1")
-    public List<Book> getBookDetails() {
-        return Arrays.asList(new Book(978088878, "Atomic Habits", "James Clear", 390));
-
-    }*/
+    }
 
 
     //Get book details with Isbn
     @GetMapping("/books/{Isbn}")
-    public ResponseEntity<Book> getBookById(@PathVariable long Isbn)
-    {    Optional<Book> book = repository.findById(Isbn);
+    public ResponseEntity<Book> getBookById(@PathVariable long Isbn) {
+        Optional<Book> book = bookRepository.findById(Isbn);
+        if (book.isPresent()) {
+             return new ResponseEntity<Book>(book.get(), HttpStatus.FOUND);
+
+        } else {
+            return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
+
+
+            //return new ResponseEntity.HttpStatus.NOT_FOUND.body("Books are not available.");
+           // return ResponseEntity.noContent().build();
+        }
+
+    }
+
+
+
+
+    @PostMapping("/books")
+    public String createBook(@RequestBody Book book) {
+
+        bookRepository.save(book);
+        //return "Book created in database";
+        return bookService.getBooks(book);
+
+    }
+
+
+    @PutMapping("/books/{Isbn}")
+
+
+    public String updateBookById(@PathVariable long Isbn, @RequestBody Book book) {
+        Optional<Book> Book1 = bookRepository.findById(Isbn);
+
+        return bookService.updateBookDetails(Isbn, book);
+
+
+    }
+
+    @DeleteMapping("/books/{Isbn}")
+    public String deleteBook(@PathVariable long Isbn) {
+        Optional<Book> Book1 = bookRepository.findById(Isbn);
+
+        return bookService.deletingBook(Isbn);
+    }
+
+
+   @GetMapping("books/history")
+
+
+    public List<Book_track> getBookHistory()
+    {
+
+        return trackRepository.findAll();
+
+
+    }}
+
+
+  /*  @GetMapping("/books/history/{Isbn}")
+    public ResponseEntity<List<Book>> getBookHistoryById(@PathVariable long Isbn)
+    {
+        Optional<Book> book = bookRepository.findById(Isbn);
         if (book.isPresent())
         {
-            return new ResponseEntity<Book>(book.get(), HttpStatus.FOUND);
+            return new ResponseEntity<List<Book>>(bookRepository.findBookHistory(Isbn), HttpStatus.FOUND);
         }
-    else
+        else
+        {
+            return new ResponseEntity<List<Book>>(HttpStatus.NOT_FOUND);
+            //return new ResponseEntity.HttpStatus.NOT_FOUND.body("Books are not available.");
+        }
+*/
 
-    {        return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
-    }
-    }
+
+
+
+
+
+
 
 /*
     @GetMapping("/books/{Isbn}")
@@ -91,24 +152,8 @@ public class BookController
         return book.get();
     }
 
-*/
 
-
-    //POST - Create a new book
-
-    @PostMapping("/books")
-    public String createBook(@RequestBody Book book)
-    {
-        repository.save(book);
-        return "Book created in database";
-
-    }
-
-
-
-
-
-   /* @PutMapping("/books/{Isbn}")
+    @PutMapping("/books/{Isbn}")
     public String updateBookById(@PathVariable long Isbn, @RequestBody Book book)
     {
         if(book.)
@@ -119,43 +164,6 @@ public class BookController
 
     */
 
-    //Update Book by Isbn
-
-    //PUT - Update/Replace a specific book
-@PutMapping("/books/{Isbn}")
-    public String updateBookById(@PathVariable long Isbn, @RequestBody Book book)
-    {
-        Optional <Book> Book1 = repository.findById(Isbn);
-        if(Book1.isPresent()) {
-
-            //Book existbook = Book1.get();
-           // existbook.setName(book.getName());
-           // existbook.setAuthor(book.getAuthor());
-           // existbook.setPrice(book.getPrice());
-            repository.save(book);
-            return "Book details updated";
-
-        }
-
-        else
-        {
-        return "Book details for Isbn" + Isbn + "do not exist";
-
-        }
-
-    }
-
-
-    //DELETE - Delete a book
-    @DeleteMapping("/books/{Isbn}")
-    public String deleteBook(@PathVariable long Isbn)
-    {
-        repository.deleteById(Isbn);
-        return "Book with Isbn " + Isbn + " deleted";
-    }
-
-
-    //@GetMapping("/book/history")
 
 
 
@@ -165,4 +173,3 @@ public class BookController
 
 
 
-}

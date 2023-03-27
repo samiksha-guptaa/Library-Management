@@ -1,6 +1,6 @@
-insert into BOOK (ISBN, AUTHOR, BOOK_NAME, PRICE)
-values (9708876, 'James Clear', 'Atomic Habits', 390);
-insert into BOOK (ISBN, AUTHOR, BOOK_NAME, PRICE)
-values (9708877, 'Napoleon Hill', 'Think and Grow Rich', 400);
-insert into BOOK (ISBN, AUTHOR, BOOK_NAME, PRICE)
-values (9708878, 'Francesc Maralles', 'Ikigai', 259);
+insert into BOOK (ISBN, AUTHOR, BOOK_NAME, INITIAL_PRICE, FINAL_PRICE, CREATED_AT, UPDATED_AT)
+values (9708876, 'James Clear', 'Atomic Habits', 390, 390, '2023-03-16 12:00:00', '2023-03-16 12:00:00');
+insert into BOOK (ISBN, AUTHOR, BOOK_NAME, INITIAL_PRICE, FINAL_PRICE, CREATED_AT, UPDATED_AT)
+values (9708877, 'Napoleon Hill', 'Think and Grow Rich', 400, 400, '2023-03-16 12:00:00', '2023-03-16 12:00:00');
+insert into BOOK (ISBN, AUTHOR, BOOK_NAME, INITIAL_PRICE, FINAL_PRICE, CREATED_AT, UPDATED_AT)
+values (9708878, 'Francesc Maralles', 'Ikigai', 259, 259,'2023-03-16 12:00:00', '2023-03-16 12:00:00');
