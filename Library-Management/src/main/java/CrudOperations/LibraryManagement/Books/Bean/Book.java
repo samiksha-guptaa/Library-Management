@@ -91,33 +91,33 @@ public class Book {
         return Isbn;
     }
 
-    public void setIsbn(long isbn) {
-        this.Isbn = isbn;
+    public void setIsbn(long Isbn) {
+        this.Isbn = Isbn;
     }
 
     public String getName() {
         return Name;
     }
 
-    public void setName(String name) {
-        this.Name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public String getAuthor() {
         return Author;
     }
 
-    public void setAuthor(String author) {
-        this.Author = author;
+    public void setAuthor(String Author) {
+        this.Author = Author;
     }
 
     public int getInitialPrice() {
         return InitialPrice;
     }
 
-    public void setInitialPrice(int initialPrice) {
-        this.InitialPrice = initialPrice;
-        this.FinalPrice = initialPrice;
+    public void setInitialPrice(int InitialPrice) {
+        this.InitialPrice = InitialPrice;
+        this.FinalPrice = InitialPrice;
 
     }
 
@@ -125,8 +125,8 @@ public class Book {
         return FinalPrice;
     }
 
-    public void setFinalPrice(int finalPrice) {
-        this.FinalPrice = finalPrice;
+    public void setFinalPrice(int FinalPrice) {
+        this.FinalPrice = FinalPrice;
     }
 
     public LocalDateTime getCreatedAt() {

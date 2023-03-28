@@ -58,19 +58,18 @@ public class BookController {
     public ResponseEntity<Book> getBookById(@PathVariable long Isbn) {
         Optional<Book> book = bookRepository.findById(Isbn);
         if (book.isPresent()) {
-             return new ResponseEntity<Book>(book.get(), HttpStatus.FOUND);
+            return new ResponseEntity<Book>(book.get(), HttpStatus.OK);
 
         } else {
-            return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
 
 
             //return new ResponseEntity.HttpStatus.NOT_FOUND.body("Books are not available.");
-           // return ResponseEntity.noContent().build();
+            // return ResponseEntity.noContent().build();
         }
 
+
     }
-
-
 
 
     @PostMapping("/books")
@@ -102,67 +101,26 @@ public class BookController {
     }
 
 
-   @GetMapping("books/history")
+    @GetMapping("books/history")
 
 
-    public List<Book_track> getBookHistory()
-    {
+    public List<Book_track> getBookHistory() {
 
         return trackRepository.findAll();
 
 
-    }}
-
-
-  /*  @GetMapping("/books/history/{Isbn}")
-    public ResponseEntity<List<Book>> getBookHistoryById(@PathVariable long Isbn)
-    {
-        Optional<Book> book = bookRepository.findById(Isbn);
-        if (book.isPresent())
-        {
-            return new ResponseEntity<List<Book>>(bookRepository.findBookHistory(Isbn), HttpStatus.FOUND);
-        }
-        else
-        {
-            return new ResponseEntity<List<Book>>(HttpStatus.NOT_FOUND);
-            //return new ResponseEntity.HttpStatus.NOT_FOUND.body("Books are not available.");
-        }
-*/
-
-
-
-
-
-
-
-
-/*
-    @GetMapping("/books/{Isbn}")
-    public Book getBookDetails(@PathVariable long Isbn) {
-
-        Optional<Book> book = repository.findById(Isbn);
-
-        if(book.isEmpty())
-        {
-            throw new RuntimeException(" Given book details are not available. " + Isbn);
-            return ("The book with Isbn" + Isbn + "is not available");
-
-        }
-
-        return book.get();
     }
+}
 
 
-    @PutMapping("/books/{Isbn}")
-    public String updateBookById(@PathVariable long Isbn, @RequestBody Book book)
-    {
-        if(book.)
 
-        repository.save(book);
-        return "Book details updated";
-    }
 
-    */
+
+
+
+
+
+
 
 
 
